@@ -72,8 +72,26 @@ public class Player {
         System.out.println("\n");
     }
 
-//    public void exactShoot(int x, int y){
-//        if()
-//    }
+    public ShipPart matchPoint(int x, int y) {
+        for (int i = 0; i < NUM_OF_SHIPS; i++) {
+            for (int j = 0; j < ships[i].getParts().length; j++) {
+                if (ships[i].getParts()[j].getX() == x && ships[i].getParts()[j].getY() == y) {
+                    return ships[i].getParts()[j];
+                }
+            }
+        }
+        System.err.println("No match part");
+        throw new RuntimeException("No match part");
+    }
+
+    public void exactShoot(int x, int y) {
+        if (opponent.getBoard().getIsFull()[x][y]) {
+            opponent.getBoard().getShootSymbols()[x][y] = '&';
+            opponent.matchPoint(x, y).setBroken(true);
+        } else {
+            opponent.getBoard().getShootSymbols()[x][y] = 'X';
+        }
+        opponent.getBoard().getIsShot()[x][y] = true;
+    }
 
 }

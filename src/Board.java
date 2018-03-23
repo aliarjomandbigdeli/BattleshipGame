@@ -32,6 +32,10 @@ public class Board {
         return isFull;
     }
 
+    public boolean[][] getIsShot() {
+        return isShot;
+    }
+
     public int getN() {
         return N;
     }

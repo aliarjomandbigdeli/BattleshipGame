@@ -15,6 +15,10 @@ public class Ship {
         isBurst = false;
     }
 
+    public ShipPart[] getParts() {
+        return parts;
+    }
+
     public void buildShip() {
         Scanner inputStream = new Scanner(System.in);
 
