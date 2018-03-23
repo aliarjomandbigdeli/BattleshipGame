@@ -55,10 +55,12 @@ public class Ship {
             int x = parts[i].getX();
             int y = parts[i].getY();
             if (!board.getIsFull()[x][y]) {
-                if (!parts[i].isBroken())
+                if (!parts[i].isBroken()) {
                     board.getSymbols()[x][y] = '@';
-                else
+                } else {
                     board.getSymbols()[x][y] = '#';
+                }
+                board.getIsFull()[x][y] = true;
             } else {
                 System.err.println("the position is full");
             }
