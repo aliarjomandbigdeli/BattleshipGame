@@ -3,6 +3,12 @@ public class ShipPart {
     private int y;
     private boolean isBroken;
 
+    public ShipPart() {
+        x = 0;
+        y = 0;
+        isBroken = false;
+    }
+
     public ShipPart(int x, int y) {
         this.x = x;
         this.y = y;
