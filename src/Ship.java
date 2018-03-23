@@ -71,6 +71,18 @@ public class Ship {
         }
     }
 
+    public void updateShipInBoard(Board board){
+        for (int i = 0; i < size; i++) {
+            int x = parts[i].getX();
+            int y = parts[i].getY();
+            if (!parts[i].isBroken()) {
+                board.getSymbols()[x][y] = '@';
+            } else {
+                board.getSymbols()[x][y] = '#';
+            }
+        }
+    }
+
 
     public boolean isBurst() {
         boolean result = true;

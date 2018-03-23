@@ -5,7 +5,7 @@ public class Player {
     private Ship[] ships;
     private Player opponent;
     private String id;
-    public static final int NUM_OF_SHIPS = 2;
+    public static final int NUM_OF_SHIPS = 5;
 
 
     public Player() {
@@ -55,7 +55,14 @@ public class Player {
         }
     }
 
+    public void updateShipsInBoard() {
+        for (Ship ship : ships) {
+            ship.updateShipInBoard(board);
+        }
+    }
+
     public void drawGrids() {
+        updateShipsInBoard();
         System.out.println("###########################################" +
                 "       " + "###########################################");
         System.out.println("############### Your grid #################" +
@@ -69,11 +76,21 @@ public class Player {
         for (int i = 0; i < board.getN(); i++) {
             System.out.print(i + " |");
             for (int j = 0; j < board.getN(); j++) {
-                System.out.print(" " + getBoard().getSymbols()[i][j] + " |");
+                if (getBoard().getSymbols()[i][j] == '@')
+                    System.out.print(" " + "\033[34m@\033[0m" + " |");
+                else if (getBoard().getSymbols()[i][j] == '#')
+                    System.out.print(" " + "\033[31m#\033[0m" + " |");
+                else
+                    System.out.print(" " + getBoard().getSymbols()[i][j] + " |");
             }
             System.out.print("       " + i + " |");
             for (int j = 0; j < board.getN(); j++) {
-                System.out.print(" " + opponent.getBoard().getShootSymbols()[i][j] + " |");
+                if (opponent.getBoard().getShootSymbols()[i][j] == '&')
+                    System.out.print(" " + "\033[32m&\033[0m" + " |");
+                else if (opponent.getBoard().getShootSymbols()[i][j] == 'X')
+                    System.out.print(" " + "\033[33mX\033[0m" + " |");
+                else
+                    System.out.print(" " + opponent.getBoard().getShootSymbols()[i][j] + " |");
             }
             System.out.println();
             System.out.println("--|---+---+---+---+---+---+---+---+---+---+" +
