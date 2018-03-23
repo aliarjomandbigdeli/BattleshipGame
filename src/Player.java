@@ -4,12 +4,39 @@ public class Player {
     private Board board;
     private Ship[] ships;
     private Player opponent;
-    public static final int NUM_OF_SHIPS = 5;
+    private String id;
+    public static final int NUM_OF_SHIPS = 2;
 
 
     public Player() {
         board = new Board();
         ships = new Ship[NUM_OF_SHIPS];
+        id = " ";
+    }
+
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public Ship[] getShips() {
+        return ships;
+    }
+
+    public void setOpponent(Player opponent) {
+        this.opponent = opponent;
+    }
+
+    public Player getOpponent() {
+        return opponent;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setupShips() {
@@ -26,22 +53,6 @@ public class Player {
                 --i;
             }
         }
-    }
-
-    public Board getBoard() {
-        return board;
-    }
-
-    public Ship[] getShips() {
-        return ships;
-    }
-
-    public void setOpponent(Player opponent) {
-        this.opponent = opponent;
-    }
-
-    public Player getOpponent() {
-        return opponent;
     }
 
     public void drawGrids() {
@@ -69,7 +80,7 @@ public class Player {
                     "       " + "--|---+---+---+---+---+---+---+---+---+---+");
         }
 
-        System.out.println("\n");
+        System.out.println();
     }
 
     public ShipPart matchPoint(int x, int y) {
@@ -84,14 +95,31 @@ public class Player {
         throw new RuntimeException("No match part");
     }
 
-    public void exactShoot(int x, int y) {
+    public boolean exactShoot() {
+        Scanner inputStream = new Scanner(System.in);
+        System.out.println("Enter the position of your shoot ");
+        System.out.print("Enter row: ");
+        int x = inputStream.nextInt();
+        System.out.print("Enter column: ");
+        int y = inputStream.nextInt();
+
+        opponent.getBoard().getIsShot()[x][y] = true;
         if (opponent.getBoard().getIsFull()[x][y]) {
             opponent.getBoard().getShootSymbols()[x][y] = '&';
             opponent.matchPoint(x, y).setBroken(true);
+            return true;
         } else {
             opponent.getBoard().getShootSymbols()[x][y] = 'X';
+            return false;
         }
-        opponent.getBoard().getIsShot()[x][y] = true;
+    }
+
+    public boolean isWinner() {
+        boolean result = true;
+        for (int i = 0; i < NUM_OF_SHIPS; i++) {
+            result = result && getOpponent().getShips()[i].isBurst();
+        }
+        return result;
     }
 
 }

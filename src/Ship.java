@@ -24,9 +24,9 @@ public class Ship {
 
         for (int i = 0; i < size; i++) {
             System.out.println("Enter the position of part " + (i + 1));
-            System.out.print("Enter X position: ");
+            System.out.print("Enter row: ");
             parts[i].setX(inputStream.nextInt());
-            System.out.print("Enter Y position: ");
+            System.out.print("Enter column: ");
             parts[i].setY(inputStream.nextInt());
         }
 
