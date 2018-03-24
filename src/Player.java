@@ -1,3 +1,4 @@
+import java.util.Random;
 import java.util.Scanner;
 
 public class Player {
@@ -5,7 +6,7 @@ public class Player {
     private Ship[] ships;
     private Player opponent;
     private String id;
-    public static final int NUM_OF_SHIPS = 5;
+    public static final int NUM_OF_SHIPS = 1;
 
 
     public Player() {
@@ -54,6 +55,17 @@ public class Player {
             }
         }
     }
+
+//    public void setupComputerShips() {
+//        Random rand = new Random();
+//        for (int i = 0; i < NUM_OF_SHIPS; i++) {
+//            int size = 2 + rand.nextInt(4);
+//            ships[i] = new Ship(size);
+//            ships[i].buildShip();
+//            ships[i].putShipInBoard(board);
+//
+//        }
+//    }
 
     public void updateShipsInBoard() {
         for (Ship ship : ships) {
@@ -112,13 +124,84 @@ public class Player {
         throw new RuntimeException("No match part");
     }
 
-    public boolean exactShoot() {
+
+    public boolean shoot(boolean isExact) {
         Scanner inputStream = new Scanner(System.in);
         System.out.println("Enter the position of your shoot ");
         System.out.print("Enter row: ");
         int x = inputStream.nextInt();
         System.out.print("Enter column: ");
         int y = inputStream.nextInt();
+        while (opponent.getBoard().getIsShot()[x][y]) {
+            System.out.println("Enter the position of your shoot again");
+            System.out.print("Enter row: ");
+            x = inputStream.nextInt();
+            System.out.print("Enter column: ");
+            y = inputStream.nextInt();
+        }
+
+        if (!isExact) {
+            Random rand = new Random();
+            if (x >= 1 && x <= 8 && y >= 1 && y <= 8) {
+                x = x - 1 + rand.nextInt(3);
+                y = y - 1 + rand.nextInt(3);
+            } else if (x == 0 && y == 0) {
+                x += rand.nextInt(2);
+                y += rand.nextInt(2);
+            } else if (x == 9 && y == 9) {
+                x = x - 1 + rand.nextInt(2);
+                y = y - 1 + rand.nextInt(2);
+            } else if (x == 9 && y == 0) {
+                x = x - 1 + rand.nextInt(2);
+                y = y + rand.nextInt(2);
+            } else if (x == 0 && y == 9) {
+                x = x + rand.nextInt(2);
+                y = y - 1 + rand.nextInt(2);
+            } else if (x == 0) {
+                x += rand.nextInt(2);
+                y = y - 1 + rand.nextInt(3);
+            } else if (x == 9) {
+                x = x - 1 + rand.nextInt(2);
+                y = y - 1 + rand.nextInt(3);
+            } else if (y == 0) {
+                x = x - 1 + rand.nextInt(3);
+                y = y + rand.nextInt(2);
+            } else if (y == 9) {
+                x = x - 1 + rand.nextInt(3);
+                y = y - 1 + rand.nextInt(2);
+            }
+            while (opponent.getBoard().getIsShot()[x][y]) {
+                if (x >= 1 && x <= 8 && y >= 1 && y <= 8) {
+                    x = x - 1 + rand.nextInt(3);
+                    y = y - 1 + rand.nextInt(3);
+                } else if (x == 0 && y == 0) {
+                    x += rand.nextInt(2);
+                    y += rand.nextInt(2);
+                } else if (x == 9 && y == 9) {
+                    x = x - 1 + rand.nextInt(2);
+                    y = y - 1 + rand.nextInt(2);
+                } else if (x == 9 && y == 0) {
+                    x = x - 1 + rand.nextInt(2);
+                    y = y + rand.nextInt(2);
+                } else if (x == 0 && y == 9) {
+                    x = x + rand.nextInt(2);
+                    y = y - 1 + rand.nextInt(2);
+                } else if (x == 0) {
+                    x += rand.nextInt(2);
+                    y = y - 1 + rand.nextInt(3);
+                } else if (x == 9) {
+                    x = x - 1 + rand.nextInt(2);
+                    y = y - 1 + rand.nextInt(3);
+                } else if (y == 0) {
+                    x = x - 1 + rand.nextInt(3);
+                    y = y + rand.nextInt(2);
+                } else if (y == 9) {
+                    x = x - 1 + rand.nextInt(3);
+                    y = y - 1 + rand.nextInt(2);
+                }
+            }
+        }
+
 
         opponent.getBoard().getIsShot()[x][y] = true;
         if (opponent.getBoard().getIsFull()[x][y]) {
@@ -130,6 +213,7 @@ public class Player {
             return false;
         }
     }
+
 
     public boolean isWinner() {
         boolean result = true;

@@ -25,12 +25,22 @@ public class Ship {
         for (int i = 0; i < size; i++) {
             System.out.println("Enter the position of part " + (i + 1));
             System.out.print("Enter row: ");
-            parts[i].setX(inputStream.nextInt());
+            int x = inputStream.nextInt();
             System.out.print("Enter column: ");
-            parts[i].setY(inputStream.nextInt());
+            int y = inputStream.nextInt();
+//            while (parts[i].getX() == x && parts[i].getY() == y) {
+//                System.out.println("Enter the position of part " + (i + 1) + ", again");
+//                System.out.print("Enter row: ");
+//                x = inputStream.nextInt();
+//                System.out.print("Enter column: ");
+//                y = inputStream.nextInt();
+//            }
+            parts[i].setX(x);
+            parts[i].setY(y);
         }
 
 
+        //work on this part to be more accurate
         boolean xDirection = true;
         boolean yDirection = true;
         int xPosition = parts[0].getX();
@@ -54,6 +64,51 @@ public class Ship {
         }
     }
 
+//    public void buildComputerShip() {
+//        Scanner inputStream = new Scanner(System.in);
+//
+//        for (int i = 0; i < size; i++) {
+//            System.out.println("Enter the position of part " + (i + 1));
+//            System.out.print("Enter row: ");
+//            int x = inputStream.nextInt();
+//            System.out.print("Enter column: ");
+//            int y = inputStream.nextInt();
+////            while (parts[i].getX() == x && parts[i].getY() == y) {
+////                System.out.println("Enter the position of part " + (i + 1) + ", again");
+////                System.out.print("Enter row: ");
+////                x = inputStream.nextInt();
+////                System.out.print("Enter column: ");
+////                y = inputStream.nextInt();
+////            }
+//            parts[i].setX(x);
+//            parts[i].setY(y);
+//        }
+//
+//
+//        //work on this part to be more accurate
+//        boolean xDirection = true;
+//        boolean yDirection = true;
+//        int xPosition = parts[0].getX();
+//        for (int i = 0; i < size; i++) {
+//            if (parts[i].getX() != xPosition) {
+//                xDirection = false;
+//                break;
+//            }
+//        }
+//
+//        int yPosition = parts[0].getY();
+//        for (int i = 0; i < size; i++) {
+//            if (parts[i].getY() != yPosition) {
+//                yDirection = false;
+//                break;
+//            }
+//        }
+//
+//        if (!xDirection && !yDirection) {
+//            System.err.println("Incorrect direction");
+//        }
+//    }
+
     public void putShipInBoard(Board board) {
         for (int i = 0; i < size; i++) {
             int x = parts[i].getX();
@@ -71,7 +126,7 @@ public class Ship {
         }
     }
 
-    public void updateShipInBoard(Board board){
+    public void updateShipInBoard(Board board) {
         for (int i = 0; i < size; i++) {
             int x = parts[i].getX();
             int y = parts[i].getY();

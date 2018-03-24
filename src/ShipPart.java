@@ -4,8 +4,8 @@ public class ShipPart {
     private boolean isBroken;
 
     public ShipPart() {
-        x = 0;
-        y = 0;
+        x = -1;
+        y = -1;
         isBroken = false;
     }
 
