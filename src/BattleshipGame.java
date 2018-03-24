@@ -22,9 +22,9 @@ public class BattleshipGame {
         Scanner inputStream = new Scanner(System.in);
         System.out.println("Single player?(y/n)");
         String ans = inputStream.next();
-        boolean isSingle = false;
+        boolean isComputer = false;
         if (ans.equals("y")) {
-            isSingle = true;
+            isComputer = true;
         }
         System.out.println("Do you want exact shoot?(y/n)");
         ans = inputStream.next();
@@ -37,27 +37,26 @@ public class BattleshipGame {
         playerA.setId(playerAId);
         playerA.setupShips();
 
-        if(!isSingle){
+        if (!isComputer) {
             System.out.print("Second player: Please enter your name: ");
             String playerBId = inputStream.next();
             playerB.setId(playerBId);
             playerB.setupShips();
-        }else {
+        } else {
             playerB.setId("Computer");
             playerB.setupShips();
         }
 
 
-
         while (true) {
             playerA.drawGrids();
-            if (ifTurnProcessEndGame(playerA,isExact))
+            if (ifTurnProcessEndGame(playerA, isExact, false))
                 break;
 
-            playerB.drawGrids();
-            if (ifTurnProcessEndGame(playerB,isExact))
+            if(!isComputer)
+                playerB.drawGrids();
+            if (ifTurnProcessEndGame(playerB, isExact, isComputer))
                 break;
-
 
         }
     }
@@ -65,23 +64,23 @@ public class BattleshipGame {
 
     public boolean ifEndGame() {
         if (playerA.isWinner()) {
-            System.out.println("Player " + playerA.getId() + " wins *_*");
+            System.out.println(playerA.getId() + " wins *_*");
             return true;
         }
         if (playerB.isWinner()) {
-            System.out.println("Player " + playerB.getId() + " wins *_*");
+            System.out.println(playerB.getId() + " wins *_*");
             return true;
         }
         return false;
     }
 
-    public boolean ifTurnProcessEndGame(Player player, boolean isExact) {
+    public boolean ifTurnProcessEndGame(Player player, boolean isExact, boolean isComputer) {
         while (true) {
             if (ifEndGame()) {
                 return true;
             }
             System.out.println("Player " + player.getId() + " turn");
-            if (!player.shoot(isExact)) {
+            if (!player.shoot(isExact, isComputer)) {
                 return false;
             }
             player.drawGrids();

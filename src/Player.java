@@ -125,20 +125,33 @@ public class Player {
     }
 
 
-    public boolean shoot(boolean isExact) {
-        Scanner inputStream = new Scanner(System.in);
-        System.out.println("Enter the position of your shoot ");
-        System.out.print("Enter row: ");
-        int x = inputStream.nextInt();
-        System.out.print("Enter column: ");
-        int y = inputStream.nextInt();
-        while (opponent.getBoard().getIsShot()[x][y]) {
-            System.out.println("Enter the position of your shoot again");
+    public boolean shoot(boolean isExact, boolean isComputer) {
+        int x = 0;
+        int y = 0;
+        if (!isComputer) {
+            Scanner inputStream = new Scanner(System.in);
+            System.out.println("Enter the position of your shoot ");
             System.out.print("Enter row: ");
             x = inputStream.nextInt();
             System.out.print("Enter column: ");
             y = inputStream.nextInt();
+            while ((x < 0 || x > 9 || y < 0 || y > 9) || opponent.getBoard().getIsShot()[x][y]) {
+                System.out.println("Enter the position of your shoot again");
+                System.out.print("Enter row: ");
+                x = inputStream.nextInt();
+                System.out.print("Enter column: ");
+                y = inputStream.nextInt();
+            }
+        } else {
+            Random rand = new Random();
+            x = rand.nextInt(10);
+            y = rand.nextInt(10);
+            while (opponent.getBoard().getIsShot()[x][y]) {
+                x = rand.nextInt(10);
+                y = rand.nextInt(10);
+            }
         }
+
 
         if (!isExact) {
             Random rand = new Random();
