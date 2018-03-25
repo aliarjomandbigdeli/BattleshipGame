@@ -6,7 +6,7 @@ public class Player {
     private Ship[] ships;
     private Player opponent;
     private String id;
-    public static final int NUM_OF_SHIPS = 5;
+    public static final int NUM_OF_SHIPS = 1;
 
 
     public Player() {
@@ -48,7 +48,7 @@ public class Player {
             if (size >= 2 && size <= 5) {
                 ships[i] = new Ship(size);
                 ships[i].buildShip(board);
-                while (!ships[i].partsAreConnected()){
+                while (!ships[i].partsAreConnected()) {
                     System.err.println("Ship wasn't connected, please enter again");
                     System.out.println("ship" + (i + 1) + ",again : ");
                     ships[i].formantShip();
@@ -94,20 +94,24 @@ public class Player {
         for (int i = 0; i < board.getN(); i++) {
             System.out.print(i + " |");
             for (int j = 0; j < board.getN(); j++) {
-                if (getBoard().getSymbols()[i][j] == '@')
-                    System.out.print(" " + "\033[34m@\033[0m" + " |");
-                else if (getBoard().getSymbols()[i][j] == '#')
-                    System.out.print(" " + "\033[31m#\033[0m" + " |");
-                else
+                if (getBoard().getSymbols()[i][j] == '@') {
+                    //System.out.print(" " + "\033[34m@\033[0m" + " |");
+                    System.out.print("\u001B[44m" + "\u001B[30m" + " @ " + "\u001B[0m" + "|");
+                } else if (getBoard().getSymbols()[i][j] == '#') {
+                    //System.out.print(" " + "\033[31m#\033[0m" + " |");
+                    System.out.print("\u001B[41m" + "\u001B[30m" + " # " + "\u001B[0m" + "|");
+                } else
                     System.out.print(" " + getBoard().getSymbols()[i][j] + " |");
             }
             System.out.print("       " + i + " |");
             for (int j = 0; j < board.getN(); j++) {
-                if (opponent.getBoard().getShootSymbols()[i][j] == '&')
-                    System.out.print(" " + "\033[32m&\033[0m" + " |");
-                else if (opponent.getBoard().getShootSymbols()[i][j] == 'X')
-                    System.out.print(" " + "\033[33mX\033[0m" + " |");
-                else
+                if (opponent.getBoard().getShootSymbols()[i][j] == '&') {
+                    //System.out.print(" " + "\033[32m&\033[0m" + " |");
+                    System.out.print("\u001B[42m" + "\u001B[30m" + " & " + "\u001B[0m" + "|");
+                } else if (opponent.getBoard().getShootSymbols()[i][j] == 'X') {
+                    //System.out.print(" " + "\033[33mX\033[0m" + " |");
+                    System.out.print("\u001B[43m" + "\u001B[30m" + " X " + "\u001B[0m" + "|");
+                } else
                     System.out.print(" " + opponent.getBoard().getShootSymbols()[i][j] + " |");
             }
             System.out.println();
