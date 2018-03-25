@@ -25,6 +25,7 @@ public class BattleshipGame {
         boolean isComputer = false;
         if (ans.equals("y")) {
             isComputer = true;
+            System.out.println("Hello");
         }
         System.out.println("Do you want exact shoot?(y/n)");
         ans = inputStream.next();
@@ -44,7 +45,7 @@ public class BattleshipGame {
             playerB.setupShips();
         } else {
             playerB.setId("Computer");
-            playerB.setupShips();
+            playerB.setupComputerShips();
         }
 
 

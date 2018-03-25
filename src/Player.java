@@ -6,7 +6,7 @@ public class Player {
     private Ship[] ships;
     private Player opponent;
     private String id;
-    public static final int NUM_OF_SHIPS = 1;
+    public static final int NUM_OF_SHIPS = 5;
 
 
     public Player() {
@@ -62,18 +62,18 @@ public class Player {
         }
     }
 
-//    public void setupComputerShips() {
-//        Random rand = new Random();
-//        for (int i = 0; i < NUM_OF_SHIPS; i++) {
-//            int size = 2 + rand.nextInt(4);
-//            ships[i] = new Ship(size);
-//            ships[i].buildShip();
-//            ships[i].putShipInBoard(board);
-//
-//        }
-//    }
+    public void setupComputerShips() {
+        Random rand = new Random();
+        for (int i = 0; i < NUM_OF_SHIPS; i++) {
+            int size = 2 + rand.nextInt(4);
+            ships[i] = new Ship(size);
+            ships[i].buildComputerShip(board);
+            ships[i].putShipInBoard(board);
 
-    public void updateShipsInBoard() {
+        }
+    }
+
+    private void updateShipsInBoard() {
         for (Ship ship : ships) {
             ship.updateShipInBoard(board);
         }
@@ -118,7 +118,7 @@ public class Player {
         System.out.println();
     }
 
-    public ShipPart matchPoint(int x, int y) {
+    private ShipPart matchPoint(int x, int y) {
         for (int i = 0; i < NUM_OF_SHIPS; i++) {
             for (int j = 0; j < ships[i].getParts().length; j++) {
                 if (ships[i].getParts()[j].getX() == x && ships[i].getParts()[j].getY() == y) {

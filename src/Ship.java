@@ -1,3 +1,4 @@
+import java.util.Random;
 import java.util.Scanner;
 
 public class Ship {
@@ -64,6 +65,47 @@ public class Ship {
         }
     }
 
+    public void buildComputerShip(Board board) {
+        Random rand = new Random();
+        int sameRow = rand.nextInt(2);
+        if (sameRow == 0) {
+            int x = rand.nextInt(10);
+            int y = rand.nextInt(10 - size + 1);
+            for (int i = 0; i < size; i++) {
+                if ((parts[i].getX() == x && parts[i].getY() == y) || board.getIsFull()[x][y]) {
+                    x = rand.nextInt(10);
+                    y = rand.nextInt(10 - size + 1);
+                    for (int j = 0; j <= i; j++) {
+                        parts[i].setX(-1);
+                        parts[i].setY(-1);
+                    }
+                    i = -1;
+                    continue;
+                }
+                parts[i].setX(x);
+                parts[i].setY(y++);
+
+            }
+        } else {
+            int y = rand.nextInt(10);
+            int x = rand.nextInt(10 - size + 1);
+            for (int i = 0; i < size; i++) {
+                if ((parts[i].getX() == x && parts[i].getY() == y) || board.getIsFull()[x][y]) {
+                    y = rand.nextInt(9);
+                    x = rand.nextInt(10 - size + 1);
+                    for (int j = 0; j <= i; j++) {
+                        parts[i].setX(-1);
+                        parts[i].setY(-1);
+                    }
+                    i = -1;
+                    continue;
+                }
+                parts[i].setX(x++);
+                parts[i].setY(y);
+            }
+        }
+    }
+
     public boolean partsAreConnected() {
         boolean xDirection = true;
         int xPosition = parts[0].getX();
@@ -77,14 +119,9 @@ public class Ship {
             maxX = parts[i].getX() > maxX ? parts[i].getX() : maxX;
         }
 
-        boolean yDirection = true;
-        int yPosition = parts[0].getY();
         int minY = parts[0].getY();
         int maxY = parts[0].getY();
         for (int i = 0; i < size; i++) {
-            if (parts[i].getY() != yPosition) {
-                yDirection = false;
-            }
             minY = parts[i].getY() < minY ? parts[i].getY() : minY;
             maxY = parts[i].getY() > maxY ? parts[i].getY() : maxY;
         }
