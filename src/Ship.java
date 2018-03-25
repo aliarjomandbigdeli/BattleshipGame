@@ -45,7 +45,7 @@ public class Ship {
             }
         } else {
             System.out.println("So, you want to put it in a column, enter the column:");
-            System.out.println("Please enter the row:");
+            System.out.println("Please enter the column:");
             int y = inputStream.nextInt();
             for (int i = 0; i < size; i++) {
                 System.out.println("Enter the position of part " + (i + 1));

@@ -6,7 +6,7 @@ public class Player {
     private Ship[] ships;
     private Player opponent;
     private String id;
-    public static final int NUM_OF_SHIPS = 1;
+    public static final int NUM_OF_SHIPS = 2;
 
 
     public Player() {
@@ -153,29 +153,30 @@ public class Player {
                 y = inputStream.nextInt();
             }
         } else {
+            int[] xy = new int[2];
             Random rand = new Random();
-            x = rand.nextInt(10);
-            y = rand.nextInt(10);
-            while (opponent.getBoard().getIsShot()[x][y]) {
+            do {
                 x = rand.nextInt(10);
                 y = rand.nextInt(10);
-            }
+                xy[0] = x;
+                xy[1] = y;
+                chooser(xy);
+            } while (opponent.getBoard().getIsShot()[xy[0]][xy[1]]);
+            x = xy[0];
+            y = xy[1];
         }
 
         int[] xy = new int[2];
         if (!isExact) {
-            xy[0] = x;
-            xy[1] = y;
-            randomizer(xy);
-            while (opponent.getBoard().getIsShot()[xy[0]][xy[1]]) {
+            do {
                 xy[0] = x;
                 xy[1] = y;
-                randomizer(xy);
-            }
+                randomize(xy);
+            } while (opponent.getBoard().getIsShot()[xy[0]][xy[1]]);
+            x = xy[0];
+            y = xy[1];
         }
 
-        x = xy[0];
-        y = xy[1];
         opponent.getBoard().getIsShot()[x][y] = true;
         if (opponent.getBoard().getIsFull()[x][y]) {
             opponent.getBoard().getShootSymbols()[x][y] = '&';
@@ -187,7 +188,107 @@ public class Player {
         }
     }
 
-    public void randomizer(int[] xy) {
+    private void chooser(int[] xy) {
+        for (int i = 0; i < board.getN(); i++) {
+            for (int j = 0; j < board.getN(); j++) {
+                if (opponent.getBoard().getShootSymbols()[i][j] == '&') {
+                    if (i >= 1 && i <= 8 && j >= 1 && j <= 8) {
+                        if (!opponent.getBoard().getIsShot()[i + 1][j]) {
+                            xy[0] = i + 1;
+                            xy[1] = j;
+                        } else if (!opponent.getBoard().getIsShot()[i][j + 1]) {
+                            xy[0] = i;
+                            xy[1] = j + 1;
+                        } else if (!opponent.getBoard().getIsShot()[i - 1][j]) {
+                            xy[0] = i - 1;
+                            xy[1] = j;
+                        } else if (!opponent.getBoard().getIsShot()[i][j - 1]) {
+                            xy[0] = i;
+                            xy[1] = j - 1;
+                        }
+                    } else if (i == 0 && j == 0) {
+                        if (!opponent.getBoard().getIsShot()[i + 1][j]) {
+                            xy[0] = i + 1;
+                            xy[1] = j;
+                        } else if (!opponent.getBoard().getIsShot()[i][j + 1]) {
+                            xy[0] = i;
+                            xy[1] = j + 1;
+                        }
+                    } else if (i == 9 && j == 9) {
+                        if (!opponent.getBoard().getIsShot()[i - 1][j]) {
+                            xy[0] = i - 1;
+                            xy[1] = j;
+                        } else if (!opponent.getBoard().getIsShot()[i][j - 1]) {
+                            xy[0] = i;
+                            xy[1] = j - 1;
+                        }
+                    } else if (i == 9 && j == 0) {
+                        if (!opponent.getBoard().getIsShot()[i - 1][j]) {
+                            xy[0] = i - 1;
+                            xy[1] = j;
+                        } else if (!opponent.getBoard().getIsShot()[i][j + 1]) {
+                            xy[0] = i;
+                            xy[1] = j + 1;
+                        }
+                    } else if (i == 0 && j == 9) {
+                        if (!opponent.getBoard().getIsShot()[i + 1][j]) {
+                            xy[0] = i + 1;
+                            xy[1] = j;
+                        } else if (!opponent.getBoard().getIsShot()[i][j - 1]) {
+                            xy[0] = i;
+                            xy[1] = j - 1;
+                        }
+                    } else if (i == 0) {
+                        if (!opponent.getBoard().getIsShot()[i + 1][j]) {
+                            xy[0] = i + 1;
+                            xy[1] = j;
+                        } else if (!opponent.getBoard().getIsShot()[i][j + 1]) {
+                            xy[0] = i;
+                            xy[1] = j + 1;
+                        } else if (!opponent.getBoard().getIsShot()[i][j - 1]) {
+                            xy[0] = i;
+                            xy[1] = j - 1;
+                        }
+                    } else if (i == 9) {
+                        if (!opponent.getBoard().getIsShot()[i - 1][j]) {
+                            xy[0] = i - 1;
+                            xy[1] = j;
+                        } else if (!opponent.getBoard().getIsShot()[i][j + 1]) {
+                            xy[0] = i;
+                            xy[1] = j + 1;
+                        } else if (!opponent.getBoard().getIsShot()[i][j - 1]) {
+                            xy[0] = i;
+                            xy[1] = j - 1;
+                        }
+                    } else if (j == 0) {
+                        if (!opponent.getBoard().getIsShot()[i + 1][j]) {
+                            xy[0] = i + 1;
+                            xy[1] = j;
+                        } else if (!opponent.getBoard().getIsShot()[i - 1][j]) {
+                            xy[0] = i - 1;
+                            xy[1] = j;
+                        } else if (!opponent.getBoard().getIsShot()[i][j + 1]) {
+                            xy[0] = i;
+                            xy[1] = j + 1;
+                        }
+                    } else if (j == 9) {
+                        if (!opponent.getBoard().getIsShot()[i + 1][j]) {
+                            xy[0] = i + 1;
+                            xy[1] = j;
+                        } else if (!opponent.getBoard().getIsShot()[i - 1][j]) {
+                            xy[0] = i - 1;
+                            xy[1] = j;
+                        } else if (!opponent.getBoard().getIsShot()[i][j - 1]) {
+                            xy[0] = i;
+                            xy[1] = j - 1;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void randomize(int[] xy) {
         Random rand = new Random();
         int x = xy[0];
         int y = xy[1];
