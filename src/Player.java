@@ -162,101 +162,20 @@ public class Player {
             }
         }
 
-
+        int[] xy = new int[2];
         if (!isExact) {
-            Random rand = new Random();
-//            do {
-//                if (x >= 1 && x <= 8 && y >= 1 && y <= 8) {
-//                    x = x - 1 + rand.nextInt(3);
-//                    y = y - 1 + rand.nextInt(3);
-//                } else if (x == 0 && y == 0) {
-//                    x += rand.nextInt(2);
-//                    y += rand.nextInt(2);
-//                } else if (x == 9 && y == 9) {
-//                    x = x - 1 + rand.nextInt(2);
-//                    y = y - 1 + rand.nextInt(2);
-//                } else if (x == 9 && y == 0) {
-//                    x = x - 1 + rand.nextInt(2);
-//                    y = y + rand.nextInt(2);
-//                } else if (x == 0 && y == 9) {
-//                    x = x + rand.nextInt(2);
-//                    y = y - 1 + rand.nextInt(2);
-//                } else if (x == 0) {
-//                    x += rand.nextInt(2);
-//                    y = y - 1 + rand.nextInt(3);
-//                } else if (x == 9) {
-//                    x = x - 1 + rand.nextInt(2);
-//                    y = y - 1 + rand.nextInt(3);
-//                } else if (y == 0) {
-//                    x = x - 1 + rand.nextInt(3);
-//                    y = y + rand.nextInt(2);
-//                } else if (y == 9) {
-//                    x = x - 1 + rand.nextInt(3);
-//                    y = y - 1 + rand.nextInt(2);
-//                }
-//            } while (opponent.getBoard().getIsShot()[x][y]);
-
-            if (x >= 1 && x <= 8 && y >= 1 && y <= 8) {
-                x = x - 1 + rand.nextInt(3);
-                y = y - 1 + rand.nextInt(3);
-            } else if (x == 0 && y == 0) {
-                x += rand.nextInt(2);
-                y += rand.nextInt(2);
-            } else if (x == 9 && y == 9) {
-                x = x - 1 + rand.nextInt(2);
-                y = y - 1 + rand.nextInt(2);
-            } else if (x == 9 && y == 0) {
-                x = x - 1 + rand.nextInt(2);
-                y = y + rand.nextInt(2);
-            } else if (x == 0 && y == 9) {
-                x = x + rand.nextInt(2);
-                y = y - 1 + rand.nextInt(2);
-            } else if (x == 0) {
-                x += rand.nextInt(2);
-                y = y - 1 + rand.nextInt(3);
-            } else if (x == 9) {
-                x = x - 1 + rand.nextInt(2);
-                y = y - 1 + rand.nextInt(3);
-            } else if (y == 0) {
-                x = x - 1 + rand.nextInt(3);
-                y = y + rand.nextInt(2);
-            } else if (y == 9) {
-                x = x - 1 + rand.nextInt(3);
-                y = y - 1 + rand.nextInt(2);
-            }
-            while (opponent.getBoard().getIsShot()[x][y]) {
-                if (x >= 1 && x <= 8 && y >= 1 && y <= 8) {
-                    x = x - 1 + rand.nextInt(3);
-                    y = y - 1 + rand.nextInt(3);
-                } else if (x == 0 && y == 0) {
-                    x += rand.nextInt(2);
-                    y += rand.nextInt(2);
-                } else if (x == 9 && y == 9) {
-                    x = x - 1 + rand.nextInt(2);
-                    y = y - 1 + rand.nextInt(2);
-                } else if (x == 9 && y == 0) {
-                    x = x - 1 + rand.nextInt(2);
-                    y = y + rand.nextInt(2);
-                } else if (x == 0 && y == 9) {
-                    x = x + rand.nextInt(2);
-                    y = y - 1 + rand.nextInt(2);
-                } else if (x == 0) {
-                    x += rand.nextInt(2);
-                    y = y - 1 + rand.nextInt(3);
-                } else if (x == 9) {
-                    x = x - 1 + rand.nextInt(2);
-                    y = y - 1 + rand.nextInt(3);
-                } else if (y == 0) {
-                    x = x - 1 + rand.nextInt(3);
-                    y = y + rand.nextInt(2);
-                } else if (y == 9) {
-                    x = x - 1 + rand.nextInt(3);
-                    y = y - 1 + rand.nextInt(2);
-                }
+            xy[0] = x;
+            xy[1] = y;
+            randomizer(xy);
+            while (opponent.getBoard().getIsShot()[xy[0]][xy[1]]) {
+                xy[0] = x;
+                xy[1] = y;
+                randomizer(xy);
             }
         }
 
-
+        x = xy[0];
+        y = xy[1];
         opponent.getBoard().getIsShot()[x][y] = true;
         if (opponent.getBoard().getIsFull()[x][y]) {
             opponent.getBoard().getShootSymbols()[x][y] = '&';
@@ -268,6 +187,41 @@ public class Player {
         }
     }
 
+    public void randomizer(int[] xy) {
+        Random rand = new Random();
+        int x = xy[0];
+        int y = xy[1];
+        if (x >= 1 && x <= 8 && y >= 1 && y <= 8) {
+            x = x - 1 + rand.nextInt(3);
+            y = y - 1 + rand.nextInt(3);
+        } else if (x == 0 && y == 0) {
+            x += rand.nextInt(2);
+            y += rand.nextInt(2);
+        } else if (x == 9 && y == 9) {
+            x = x - 1 + rand.nextInt(2);
+            y = y - 1 + rand.nextInt(2);
+        } else if (x == 9 && y == 0) {
+            x = x - 1 + rand.nextInt(2);
+            y = y + rand.nextInt(2);
+        } else if (x == 0 && y == 9) {
+            x = x + rand.nextInt(2);
+            y = y - 1 + rand.nextInt(2);
+        } else if (x == 0) {
+            x += rand.nextInt(2);
+            y = y - 1 + rand.nextInt(3);
+        } else if (x == 9) {
+            x = x - 1 + rand.nextInt(2);
+            y = y - 1 + rand.nextInt(3);
+        } else if (y == 0) {
+            x = x - 1 + rand.nextInt(3);
+            y = y + rand.nextInt(2);
+        } else if (y == 9) {
+            x = x - 1 + rand.nextInt(3);
+            y = y - 1 + rand.nextInt(2);
+        }
+        xy[0] = x;
+        xy[1] = y;
+    }
 
     public boolean isWinner() {
         boolean result = true;
