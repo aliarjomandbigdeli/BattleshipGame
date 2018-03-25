@@ -47,7 +47,13 @@ public class Player {
             int size = inputStream.nextInt();
             if (size >= 2 && size <= 5) {
                 ships[i] = new Ship(size);
-                ships[i].buildShip();
+                ships[i].buildShip(board);
+                while (!ships[i].partsAreConnected()){
+                    System.err.println("Ship wasn't connected, please enter again");
+                    System.out.println("ship" + (i + 1) + ",again : ");
+                    ships[i].formantShip();
+                    ships[i].buildShip(board);
+                }
                 ships[i].putShipInBoard(board);
             } else {
                 System.err.println("incorrect size, please enter again");
@@ -155,6 +161,37 @@ public class Player {
 
         if (!isExact) {
             Random rand = new Random();
+//            do {
+//                if (x >= 1 && x <= 8 && y >= 1 && y <= 8) {
+//                    x = x - 1 + rand.nextInt(3);
+//                    y = y - 1 + rand.nextInt(3);
+//                } else if (x == 0 && y == 0) {
+//                    x += rand.nextInt(2);
+//                    y += rand.nextInt(2);
+//                } else if (x == 9 && y == 9) {
+//                    x = x - 1 + rand.nextInt(2);
+//                    y = y - 1 + rand.nextInt(2);
+//                } else if (x == 9 && y == 0) {
+//                    x = x - 1 + rand.nextInt(2);
+//                    y = y + rand.nextInt(2);
+//                } else if (x == 0 && y == 9) {
+//                    x = x + rand.nextInt(2);
+//                    y = y - 1 + rand.nextInt(2);
+//                } else if (x == 0) {
+//                    x += rand.nextInt(2);
+//                    y = y - 1 + rand.nextInt(3);
+//                } else if (x == 9) {
+//                    x = x - 1 + rand.nextInt(2);
+//                    y = y - 1 + rand.nextInt(3);
+//                } else if (y == 0) {
+//                    x = x - 1 + rand.nextInt(3);
+//                    y = y + rand.nextInt(2);
+//                } else if (y == 9) {
+//                    x = x - 1 + rand.nextInt(3);
+//                    y = y - 1 + rand.nextInt(2);
+//                }
+//            } while (opponent.getBoard().getIsShot()[x][y]);
+
             if (x >= 1 && x <= 8 && y >= 1 && y <= 8) {
                 x = x - 1 + rand.nextInt(3);
                 y = y - 1 + rand.nextInt(3);

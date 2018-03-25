@@ -53,7 +53,7 @@ public class BattleshipGame {
             if (ifTurnProcessEndGame(playerA, isExact, false))
                 break;
 
-            if(!isComputer)
+            if (!isComputer)
                 playerB.drawGrids();
             if (ifTurnProcessEndGame(playerB, isExact, isComputer))
                 break;
@@ -79,11 +79,13 @@ public class BattleshipGame {
             if (ifEndGame()) {
                 return true;
             }
-            System.out.println("Player " + player.getId() + " turn");
+            if (!isComputer)
+                System.out.println(player.getId() + "'s turn");
             if (!player.shoot(isExact, isComputer)) {
                 return false;
             }
-            player.drawGrids();
+            if (!isComputer)
+                player.drawGrids();
         }
     }
 
