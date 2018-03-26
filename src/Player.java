@@ -1,6 +1,12 @@
 import java.util.Random;
 import java.util.Scanner;
 
+/**
+ * this class models Battleship game player
+ *
+ * @author Ali ArjomandBigdeli
+ * @since 3.26.2018
+ */
 public class Player {
     private Board board;
     private Ship[] ships;
@@ -9,6 +15,9 @@ public class Player {
     public static final int NUM_OF_SHIPS = 2;
 
 
+    /**
+     * constructor
+     */
     public Player() {
         board = new Board();
         ships = new Ship[NUM_OF_SHIPS];
@@ -16,30 +25,57 @@ public class Player {
     }
 
 
-    public Board getBoard() {
+    /**
+     * getter
+     * @return the board of a player
+     */
+    private Board getBoard() {
         return board;
     }
 
-    public Ship[] getShips() {
+    /**
+     * getter
+     * @return the ships of a player
+     */
+    private Ship[] getShips() {
         return ships;
     }
 
+    /**
+     * this use to set opponent for a player
+     * @param opponent
+     */
     public void setOpponent(Player opponent) {
         this.opponent = opponent;
     }
 
-    public Player getOpponent() {
+    /**
+     * getter
+     * @return the opponent of a player
+     */
+    private Player getOpponent() {
         return opponent;
     }
 
+    /**
+     * getter
+     * @return the ID of a player
+     */
     public String getId() {
         return id;
     }
 
+    /**
+     * setter
+     * @param id the ID of a player(it's like name)
+     */
     public void setId(String id) {
         this.id = id;
     }
 
+    /**
+     * this method use to build a player's ships in a correct way
+     */
     public void setupShips() {
         Scanner inputStream = new Scanner(System.in);
         for (int i = 0; i < NUM_OF_SHIPS; i++) {
@@ -62,6 +98,9 @@ public class Player {
         }
     }
 
+    /**
+     * this method use to build a computer player's ships in a correct way
+     */
     public void setupComputerShips() {
         Random rand = new Random();
         for (int i = 0; i < NUM_OF_SHIPS; i++) {
@@ -73,12 +112,18 @@ public class Player {
         }
     }
 
+    /**
+     * this methods use to update ship's symbols on the board
+     */
     private void updateShipsInBoard() {
         for (Ship ship : ships) {
             ship.updateShipInBoard(board);
         }
     }
 
+    /**
+     * this method use to show player board
+     */
     public void drawGrids() {
         updateShipsInBoard();
         System.out.println("###########################################" +
@@ -122,6 +167,12 @@ public class Player {
         System.out.println();
     }
 
+    /**
+     * this method use to math a point on the board to a ship part
+     * @param x the x position of that point
+     * @param y the y position of that point
+     * @return the part of ship that is in the position
+     */
     private ShipPart matchPoint(int x, int y) {
         for (int i = 0; i < NUM_OF_SHIPS; i++) {
             for (int j = 0; j < ships[i].getParts().length; j++) {
@@ -135,6 +186,12 @@ public class Player {
     }
 
 
+    /**
+     * this method use to shoot
+     * @param isExact specifies type of the shoot
+     * @param isComputer specifies type of player
+     * @return whether the shoot was successful or not
+     */
     public boolean shoot(boolean isExact, boolean isComputer) {
         int x = 0;
         int y = 0;
@@ -188,6 +245,10 @@ public class Player {
         }
     }
 
+    /**
+     * the help computer player to be smart
+     * @param xy the position of shoot
+     */
     private void chooser(int[] xy) {
         for (int i = 0; i < board.getN(); i++) {
             for (int j = 0; j < board.getN(); j++) {
@@ -250,15 +311,15 @@ public class Player {
                             xy[1] = j - 1;
                         }
                     } else if (i == 9) {
-                        if (!opponent.getBoard().getIsShot()[i - 1][j]) {
-                            xy[0] = i - 1;
-                            xy[1] = j;
-                        } else if (!opponent.getBoard().getIsShot()[i][j + 1]) {
+                        if (!opponent.getBoard().getIsShot()[i][j + 1]) {
                             xy[0] = i;
                             xy[1] = j + 1;
                         } else if (!opponent.getBoard().getIsShot()[i][j - 1]) {
                             xy[0] = i;
                             xy[1] = j - 1;
+                        } else if (!opponent.getBoard().getIsShot()[i - 1][j]) {
+                            xy[0] = i - 1;
+                            xy[1] = j;
                         }
                     } else if (j == 0) {
                         if (!opponent.getBoard().getIsShot()[i + 1][j]) {
@@ -288,6 +349,10 @@ public class Player {
         }
     }
 
+    /**
+     * this method use for approximate shoot
+     * @param xy the position of the shoot
+     */
     private void randomize(int[] xy) {
         Random rand = new Random();
         int x = xy[0];
@@ -324,6 +389,10 @@ public class Player {
         xy[1] = y;
     }
 
+    /**
+     * the method specifies whether the player is a winner or not
+     * @return boolean that specifies whether the player is a winner or not
+     */
     public boolean isWinner() {
         boolean result = true;
         for (int i = 0; i < NUM_OF_SHIPS; i++) {

@@ -1,10 +1,18 @@
 import java.util.Scanner;
 
+/**
+ * this class models Battleship game
+ *
+ * @author Ali ArjomandBigdeli
+ * @since 3.26.2018
+ */
 public class BattleshipGame {
     private Player playerA;
     private Player playerB;
 
-
+    /**
+     * constructor
+     */
     public BattleshipGame() {
         playerA = new Player();
         playerB = new Player();
@@ -13,11 +21,9 @@ public class BattleshipGame {
 
     }
 
-
-    public Player getPlayerA() {
-        return playerA;
-    }
-
+    /**
+     * this method is for running the game
+     */
     public void startGame() {
         Scanner inputStream = new Scanner(System.in);
         System.out.println("Single player?(y/n)");
@@ -53,7 +59,7 @@ public class BattleshipGame {
             if (ifTurnProcessEndGame(playerA, isExact, false))
                 break;
 
-            //if (!isComputer)
+            if (!isComputer)
                 playerB.drawGrids();
             if (ifTurnProcessEndGame(playerB, isExact, isComputer))
                 break;
@@ -62,7 +68,11 @@ public class BattleshipGame {
     }
 
 
-    public boolean ifEndGame() {
+    /**
+     * check whether  the game ends or doesn't(someone wins or not)
+     * @return whether  the game ends or doesn't
+     */
+    private boolean ifEndGame() {
         if (playerA.isWinner()) {
             System.out.println(playerA.getId() + " wins *_*");
             return true;
@@ -74,7 +84,14 @@ public class BattleshipGame {
         return false;
     }
 
-    public boolean ifTurnProcessEndGame(Player player, boolean isExact, boolean isComputer) {
+    /**
+     * this method runs the turn process of the game
+     * @param player the turn is for this player
+     * @param isExact determine the type of shoot
+     * @param isComputer determine the type of player
+     * @return whether the turn process can end the game or not
+     */
+    private boolean ifTurnProcessEndGame(Player player, boolean isExact, boolean isComputer) {
         while (true) {
             if (ifEndGame()) {
                 return true;

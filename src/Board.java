@@ -1,3 +1,10 @@
+
+/**
+ * this class models Battleship game board
+ *
+ * @author Ali ArjomandBigdeli
+ * @since 3.26.2018
+ */
 public class Board {
     private boolean[][] isFull;
     private char[][] symbols;
@@ -20,22 +27,42 @@ public class Board {
         }
     }
 
+    /**
+     * getter
+     * @return getSymbols that is for your ships symbols
+     */
     public char[][] getSymbols() {
         return symbols;
     }
 
+    /**
+     * getter
+     * @return getShootSymbols that is for your shoot on the target
+     */
     public char[][] getShootSymbols() {
         return shootSymbols;
     }
 
+    /**
+     * getter
+     * @return getIsFull that is for checking the board is full or not
+     */
     public boolean[][] getIsFull() {
         return isFull;
     }
 
+    /**
+     * getter
+     * @return getIsShoot that is for checking the board is shot or not
+     */
     public boolean[][] getIsShot() {
         return isShot;
     }
 
+    /**
+     * getter
+     * @return N that is specifies one dimension of the board
+     */
     public int getN() {
         return N;
     }
