@@ -197,7 +197,7 @@ public class Ship {
 
     /**
      * this method puts ships on the board
-     * @param board
+     * @param board board that ships put on
      */
     public void putShipInBoard(Board board) {
         for (int i = 0; i < size; i++) {

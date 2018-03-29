@@ -14,11 +14,7 @@ public class BattleshipGame {
      * constructor
      */
     public BattleshipGame() {
-        playerA = new Player();
-        playerB = new Player();
-        playerA.setOpponent(playerB);
-        playerB.setOpponent(playerA);
-
+        playerA = new HumanPlayer();
     }
 
     /**
@@ -31,7 +27,12 @@ public class BattleshipGame {
         boolean isComputer = false;
         if (ans.equals("y")) {
             isComputer = true;
+            playerB = new AIPlayer();
+        }else {
+            playerB = new HumanPlayer();
         }
+        playerA.setOpponent(playerB);
+        playerB.setOpponent(playerA);
         System.out.println("Do you want exact shoot?(y/n)");
         ans = inputStream.next();
         boolean isExact = false;
@@ -47,21 +48,18 @@ public class BattleshipGame {
             System.out.print("Second player: Please enter your name: ");
             String playerBId = inputStream.next();
             playerB.setId(playerBId);
-            playerB.setupShips();
-        } else {
-            playerB.setId("Computer");
-            playerB.setupComputerShips();
         }
+        playerB.setupShips();
 
 
         while (true) {
             playerA.drawGrids();
-            if (ifTurnProcessEndGame(playerA, isExact, false))
+            if (ifTurnProcessEndGame(playerA, isExact))
                 break;
 
             if (!isComputer)
                 playerB.drawGrids();
-            if (ifTurnProcessEndGame(playerB, isExact, isComputer))
+            if (ifTurnProcessEndGame(playerB, isExact))
                 break;
 
         }
@@ -88,20 +86,19 @@ public class BattleshipGame {
      * this method runs the turn process of the game
      * @param player the turn is for this player
      * @param isExact determine the type of shoot
-     * @param isComputer determine the type of player
      * @return whether the turn process can end the game or not
      */
-    private boolean ifTurnProcessEndGame(Player player, boolean isExact, boolean isComputer) {
+    private boolean ifTurnProcessEndGame(Player player, boolean isExact) {
         while (true) {
             if (ifEndGame()) {
                 return true;
             }
-            if (!isComputer)
+            if (player instanceof HumanPlayer)
                 System.out.println(player.getId() + "'s turn");
-            if (!player.shoot(isExact, isComputer)) {
+            if (!player.shoot(isExact)) {
                 return false;
             }
-            if (!isComputer)
+            if (player instanceof HumanPlayer)
                 player.drawGrids();
         }
     }

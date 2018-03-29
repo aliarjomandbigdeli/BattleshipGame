@@ -1,5 +1,4 @@
 import java.util.Random;
-import java.util.Scanner;
 
 /**
  * this class models Battleship game player
@@ -7,12 +6,12 @@ import java.util.Scanner;
  * @author Ali ArjomandBigdeli
  * @since 3.26.2018
  */
-public class Player {
-    private Board board;
-    private Ship[] ships;
-    private Player opponent;
-    private String id;
-    public static final int NUM_OF_SHIPS = 2;
+public abstract class Player {
+    protected Board board;
+    protected Ship[] ships;
+    protected Player opponent;
+    protected String id;
+    public static final int NUM_OF_SHIPS = 5;
 
 
     /**
@@ -29,7 +28,7 @@ public class Player {
      * getter
      * @return the board of a player
      */
-    private Board getBoard() {
+    protected Board getBoard() {
         return board;
     }
 
@@ -43,7 +42,7 @@ public class Player {
 
     /**
      * this use to set opponent for a player
-     * @param opponent
+     * @param opponent opponent for a player
      */
     public void setOpponent(Player opponent) {
         this.opponent = opponent;
@@ -76,41 +75,8 @@ public class Player {
     /**
      * this method use to build a player's ships in a correct way
      */
-    public void setupShips() {
-        Scanner inputStream = new Scanner(System.in);
-        for (int i = 0; i < NUM_OF_SHIPS; i++) {
-            System.out.println("Please enter the size of the ship" + (i + 1) + ": ");
-            int size = inputStream.nextInt();
-            if (size >= 2 && size <= 5) {
-                ships[i] = new Ship(size);
-                ships[i].buildShip(board);
-                while (!ships[i].partsAreConnected()) {
-                    System.err.println("Ship wasn't connected, please enter again");
-                    System.out.println("ship" + (i + 1) + ",again : ");
-                    ships[i].formantShip();
-                    ships[i].buildShip(board);
-                }
-                ships[i].putShipInBoard(board);
-            } else {
-                System.err.println("incorrect size, please enter again");
-                --i;
-            }
-        }
-    }
+    public abstract void setupShips();
 
-    /**
-     * this method use to build a computer player's ships in a correct way
-     */
-    public void setupComputerShips() {
-        Random rand = new Random();
-        for (int i = 0; i < NUM_OF_SHIPS; i++) {
-            int size = 2 + rand.nextInt(4);
-            ships[i] = new Ship(size);
-            ships[i].buildComputerShip(board);
-            ships[i].putShipInBoard(board);
-
-        }
-    }
 
     /**
      * this methods use to update ship's symbols on the board
@@ -173,7 +139,7 @@ public class Player {
      * @param y the y position of that point
      * @return the part of ship that is in the position
      */
-    private ShipPart matchPoint(int x, int y) {
+    protected ShipPart matchPoint(int x, int y) {
         for (int i = 0; i < NUM_OF_SHIPS; i++) {
             for (int j = 0; j < ships[i].getParts().length; j++) {
                 if (ships[i].getParts()[j].getX() == x && ships[i].getParts()[j].getY() == y) {
@@ -189,171 +155,16 @@ public class Player {
     /**
      * this method use to shoot
      * @param isExact specifies type of the shoot
-     * @param isComputer specifies type of player
      * @return whether the shoot was successful or not
      */
-    public boolean shoot(boolean isExact, boolean isComputer) {
-        int x = 0;
-        int y = 0;
-        if (!isComputer) {
-            Scanner inputStream = new Scanner(System.in);
-            System.out.println("Enter the position of your shoot ");
-            System.out.print("Enter row: ");
-            x = inputStream.nextInt();
-            System.out.print("Enter column: ");
-            y = inputStream.nextInt();
-            while ((x < 0 || x > 9 || y < 0 || y > 9) || opponent.getBoard().getIsShot()[x][y]) {
-                System.out.println("Enter the position of your shoot again");
-                System.out.print("Enter row: ");
-                x = inputStream.nextInt();
-                System.out.print("Enter column: ");
-                y = inputStream.nextInt();
-            }
-        } else {
-            int[] xy = new int[2];
-            Random rand = new Random();
-            do {
-                x = rand.nextInt(10);
-                y = rand.nextInt(10);
-                xy[0] = x;
-                xy[1] = y;
-                chooser(xy);
-            } while (opponent.getBoard().getIsShot()[xy[0]][xy[1]]);
-            x = xy[0];
-            y = xy[1];
-        }
+    public abstract boolean shoot(boolean isExact);
 
-        int[] xy = new int[2];
-        if (!isExact) {
-            do {
-                xy[0] = x;
-                xy[1] = y;
-                randomize(xy);
-            } while (opponent.getBoard().getIsShot()[xy[0]][xy[1]]);
-            x = xy[0];
-            y = xy[1];
-        }
-
-        opponent.getBoard().getIsShot()[x][y] = true;
-        if (opponent.getBoard().getIsFull()[x][y]) {
-            opponent.getBoard().getShootSymbols()[x][y] = '&';
-            opponent.matchPoint(x, y).setBroken(true);
-            return true;
-        } else {
-            opponent.getBoard().getShootSymbols()[x][y] = 'X';
-            return false;
-        }
-    }
-
-    /**
-     * the help computer player to be smart
-     * @param xy the position of shoot
-     */
-    private void chooser(int[] xy) {
-        for (int i = 0; i < board.getN(); i++) {
-            for (int j = 0; j < board.getN(); j++) {
-                if (opponent.getBoard().getShootSymbols()[i][j] == '&') {
-                    if (i >= 1 && i <= 8 && j >= 1 && j <= 8) {
-                        if (!opponent.getBoard().getIsShot()[i + 1][j]) {
-                            xy[0] = i + 1;
-                            xy[1] = j;
-                        } else if (!opponent.getBoard().getIsShot()[i][j + 1]) {
-                            xy[0] = i;
-                            xy[1] = j + 1;
-                        } else if (!opponent.getBoard().getIsShot()[i - 1][j]) {
-                            xy[0] = i - 1;
-                            xy[1] = j;
-                        } else if (!opponent.getBoard().getIsShot()[i][j - 1]) {
-                            xy[0] = i;
-                            xy[1] = j - 1;
-                        }
-                    } else if (i == 0 && j == 0) {
-                        if (!opponent.getBoard().getIsShot()[i + 1][j]) {
-                            xy[0] = i + 1;
-                            xy[1] = j;
-                        } else if (!opponent.getBoard().getIsShot()[i][j + 1]) {
-                            xy[0] = i;
-                            xy[1] = j + 1;
-                        }
-                    } else if (i == 9 && j == 9) {
-                        if (!opponent.getBoard().getIsShot()[i - 1][j]) {
-                            xy[0] = i - 1;
-                            xy[1] = j;
-                        } else if (!opponent.getBoard().getIsShot()[i][j - 1]) {
-                            xy[0] = i;
-                            xy[1] = j - 1;
-                        }
-                    } else if (i == 9 && j == 0) {
-                        if (!opponent.getBoard().getIsShot()[i - 1][j]) {
-                            xy[0] = i - 1;
-                            xy[1] = j;
-                        } else if (!opponent.getBoard().getIsShot()[i][j + 1]) {
-                            xy[0] = i;
-                            xy[1] = j + 1;
-                        }
-                    } else if (i == 0 && j == 9) {
-                        if (!opponent.getBoard().getIsShot()[i + 1][j]) {
-                            xy[0] = i + 1;
-                            xy[1] = j;
-                        } else if (!opponent.getBoard().getIsShot()[i][j - 1]) {
-                            xy[0] = i;
-                            xy[1] = j - 1;
-                        }
-                    } else if (i == 0) {
-                        if (!opponent.getBoard().getIsShot()[i + 1][j]) {
-                            xy[0] = i + 1;
-                            xy[1] = j;
-                        } else if (!opponent.getBoard().getIsShot()[i][j + 1]) {
-                            xy[0] = i;
-                            xy[1] = j + 1;
-                        } else if (!opponent.getBoard().getIsShot()[i][j - 1]) {
-                            xy[0] = i;
-                            xy[1] = j - 1;
-                        }
-                    } else if (i == 9) {
-                        if (!opponent.getBoard().getIsShot()[i][j + 1]) {
-                            xy[0] = i;
-                            xy[1] = j + 1;
-                        } else if (!opponent.getBoard().getIsShot()[i][j - 1]) {
-                            xy[0] = i;
-                            xy[1] = j - 1;
-                        } else if (!opponent.getBoard().getIsShot()[i - 1][j]) {
-                            xy[0] = i - 1;
-                            xy[1] = j;
-                        }
-                    } else if (j == 0) {
-                        if (!opponent.getBoard().getIsShot()[i + 1][j]) {
-                            xy[0] = i + 1;
-                            xy[1] = j;
-                        } else if (!opponent.getBoard().getIsShot()[i - 1][j]) {
-                            xy[0] = i - 1;
-                            xy[1] = j;
-                        } else if (!opponent.getBoard().getIsShot()[i][j + 1]) {
-                            xy[0] = i;
-                            xy[1] = j + 1;
-                        }
-                    } else if (j == 9) {
-                        if (!opponent.getBoard().getIsShot()[i + 1][j]) {
-                            xy[0] = i + 1;
-                            xy[1] = j;
-                        } else if (!opponent.getBoard().getIsShot()[i - 1][j]) {
-                            xy[0] = i - 1;
-                            xy[1] = j;
-                        } else if (!opponent.getBoard().getIsShot()[i][j - 1]) {
-                            xy[0] = i;
-                            xy[1] = j - 1;
-                        }
-                    }
-                }
-            }
-        }
-    }
 
     /**
      * this method use for approximate shoot
      * @param xy the position of the shoot
      */
-    private void randomize(int[] xy) {
+    protected void randomize(int[] xy) {
         Random rand = new Random();
         int x = xy[0];
         int y = xy[1];
