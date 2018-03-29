@@ -14,6 +14,7 @@ public class Ship {
 
     /**
      * constructor
+     *
      * @param size specifies size of the ship
      */
     public Ship(int size) {
@@ -27,6 +28,7 @@ public class Ship {
 
     /**
      * getter
+     *
      * @return parts of a ship
      */
     public ShipPart[] getParts() {
@@ -35,6 +37,7 @@ public class Ship {
 
     /**
      * this method use to build a ship by user input
+     *
      * @param board board that ships put on
      */
     public void buildShip(Board board) {
@@ -58,7 +61,7 @@ public class Ship {
                     System.out.print("Enter column: ");
                     y = inputStream.nextInt();
                 }
-                for (int j = 0; j < i; j++) {
+                for (int j = 0; j <= i; j++) {
                     if ((parts[j].getX() == x && parts[j].getY() == y) || board.getIsFull()[x][y]) {
                         System.out.println("Enter the position of part " + (i + 1) + ", again");
                         System.out.print("Enter column: ");
@@ -91,7 +94,7 @@ public class Ship {
                     System.out.print("Enter row: ");
                     x = inputStream.nextInt();
                 }
-                for (int j = 0; j < i; j++) {
+                for (int j = 0; j <= i; j++) {
                     if ((parts[j].getX() == x && parts[j].getY() == y) || board.getIsFull()[x][y]) {
                         System.out.println("Enter the position of part " + (i + 1) + ", again");
                         System.out.print("Enter row: ");
@@ -112,6 +115,7 @@ public class Ship {
 
     /**
      * this method use to build a ship by computer
+     *
      * @param board board that ships put on
      */
     public void buildComputerShip(Board board) {
@@ -140,7 +144,7 @@ public class Ship {
             int x = rand.nextInt(10 - size + 1);
             for (int i = 0; i < size; i++) {
                 if ((parts[i].getX() == x && parts[i].getY() == y) || board.getIsFull()[x][y]) {
-                    y = rand.nextInt(9);
+                    y = rand.nextInt(10);
                     x = rand.nextInt(10 - size + 1);
                     for (int j = 0; j <= i; j++) {
                         parts[i].setX(-1);
@@ -157,6 +161,7 @@ public class Ship {
 
     /**
      * check whether parts of ship are connected or not
+     *
      * @return boolean that specifies whether parts of ship are connected or not
      */
     public boolean partsAreConnected() {
@@ -197,6 +202,7 @@ public class Ship {
 
     /**
      * this method puts ships on the board
+     *
      * @param board board that ships put on
      */
     public void putShipInBoard(Board board) {
@@ -233,6 +239,7 @@ public class Ship {
 
     /**
      * check whether the ship is burst or not
+     *
      * @return boolean that specifies whether the ship is burst or not
      */
     public boolean isBurst() {
