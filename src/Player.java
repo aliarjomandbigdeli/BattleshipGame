@@ -26,6 +26,7 @@ public abstract class Player {
 
     /**
      * getter
+     *
      * @return the board of a player
      */
     protected Board getBoard() {
@@ -34,6 +35,7 @@ public abstract class Player {
 
     /**
      * getter
+     *
      * @return the ships of a player
      */
     private Ship[] getShips() {
@@ -42,6 +44,7 @@ public abstract class Player {
 
     /**
      * this use to set opponent for a player
+     *
      * @param opponent opponent for a player
      */
     public void setOpponent(Player opponent) {
@@ -50,6 +53,7 @@ public abstract class Player {
 
     /**
      * getter
+     *
      * @return the opponent of a player
      */
     private Player getOpponent() {
@@ -58,6 +62,7 @@ public abstract class Player {
 
     /**
      * getter
+     *
      * @return the ID of a player
      */
     public String getId() {
@@ -66,6 +71,7 @@ public abstract class Player {
 
     /**
      * setter
+     *
      * @param id the ID of a player(it's like name)
      */
     public void setId(String id) {
@@ -135,6 +141,7 @@ public abstract class Player {
 
     /**
      * this method use to math a point on the board to a ship part
+     *
      * @param x the x position of that point
      * @param y the y position of that point
      * @return the part of ship that is in the position
@@ -154,6 +161,7 @@ public abstract class Player {
 
     /**
      * this method use to shoot
+     *
      * @param isExact specifies type of the shoot
      * @return whether the shoot was successful or not
      */
@@ -162,6 +170,7 @@ public abstract class Player {
 
     /**
      * this method use for approximate shoot
+     *
      * @param xy the position of the shoot
      */
     protected void randomize(int[] xy) {
@@ -202,6 +211,7 @@ public abstract class Player {
 
     /**
      * the method specifies whether the player is a winner or not
+     *
      * @return boolean that specifies whether the player is a winner or not
      */
     public boolean isWinner() {
