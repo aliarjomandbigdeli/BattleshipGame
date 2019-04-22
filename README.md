@@ -8,6 +8,7 @@ You can see rules of the game at link below:
 ## Output
 You can see the out below:
 
-![picture](battleShipGame1.png)
+![picture](BattleshipGame1.png)
 
-![picture2](battleShipGame2.png)
+
+![picture](BattleshipGame2.png)
