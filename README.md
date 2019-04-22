@@ -10,4 +10,4 @@ You can see the out below:
 
 ![picture](battleShipGame1.png)
 
-![picture](battleShipGame2.png)
+![picture2](battleShipGame2.png)
